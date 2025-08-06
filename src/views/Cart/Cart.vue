@@ -82,7 +82,7 @@
           <span>TỔNG CỘNG</span>
           <span>{{ totalPrice.toLocaleString() }}₫</span>
         </div>
-        <button class="cursor-pointer hover:opacity-[0.8] bg-black text-white w-full py-2 rounded">
+        <button @click="checkout" class="cursor-pointer hover:opacity-[0.8] bg-black text-white w-full py-2 rounded">
           Thanh Toán
         </button>
       </div>
@@ -94,8 +94,11 @@ import { useStore } from 'vuex'
 import { computed, ref } from 'vue'
 import Breadcrumb from '@/components/Breadcrumb.vue'
 import EmptyCard from './components/EmptyCard.vue'
+import { toast } from 'vue3-toastify'
+import { useRouter } from 'vue-router'
 
 const store = useStore()
+const router = useRouter()
 const cart = computed(() => store.state.cart)
 const totalPrice = computed(() => store.getters.totalPrice)
 const today = new Date().toISOString().split('T')[0]
@@ -133,6 +136,27 @@ const onBlur = (item: any) => {
 const onInputQuantity = (e: Event, item: any) => {
   const value = Number((e.target as HTMLInputElement).value)
   item.quantity = value
+}
+
+const checkout = () => {
+  if (cart.value.length === 0) {
+    toast.warning('Giỏ hàng đang trống!', { position: 'top-left' })
+    return
+  }
+
+  if (!deliveryAddress.value.trim()) {
+    toast.warning('Vui lòng nhập địa chỉ nhận hàng!', { position: 'top-left' })
+    return
+  }
+
+  store.commit('clearCart')
+  toast.success('Thanh toán thành công! Cảm ơn bạn đã mua hàng ❤️', {
+    position: 'top-left',
+  })
+
+  setTimeout(() => {
+    router.push('/')
+  }, 2000)
 }
 </script>
 <style scoped>
