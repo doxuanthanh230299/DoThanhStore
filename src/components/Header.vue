@@ -92,8 +92,8 @@ const showSearch = ref(false)
         <router-link to="/products" class="block hover:underline" @click="closeMobileMenu"
           >Sản phẩm</router-link
         >
-        <router-link to="/collections" class="block hover:underline" @click="closeMobileMenu"
-          >Bộ sưu tập</router-link
+        <router-link to="/galery" class="block hover:underline" @click="closeMobileMenu"
+          >Thư viện</router-link
         >
         <router-link to="/about" class="block hover:underline" @click="closeMobileMenu"
           >Giới thiệu</router-link
